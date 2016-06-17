@@ -17,9 +17,11 @@ class PoweredBy implements MiddlewareInterface
          */
         $result = $next($request, $response);
 
+        $path = $request->getUri()->getPath();
+
         return $result->withBody(new AppendStream([
             $result->getBody(),
-            stream_for('<hr/>Powered by MdBlog'),
+            stream_for("<hr/>Powered by MdBlog ({$path})"),
         ]));
     }
 }
