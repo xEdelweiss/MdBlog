@@ -17,20 +17,6 @@ use Psr\Http\Message\ResponseInterface;
 class Application
 {
     /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * Application constructor.
-     * @param Filesystem $filesystem
-     */
-    public function __construct(Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
-    }
-
-    /**
      * @param array $middleware
      * @param RequestInterface|null $request
      * @return ResponseInterface

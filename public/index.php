@@ -12,6 +12,6 @@ $middleware = [
     new \MdBlog\Middleware\RenderMarkdown(),
 ];
 
-$application = new \MdBlog\Application($filesystem);
+$application = new \MdBlog\Application();
 
 $application->dispatchAndSend($middleware);
