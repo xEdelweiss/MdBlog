@@ -4,6 +4,8 @@ namespace MdBlog;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Filesystem;
 use mindplay\middleman\Dispatcher;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +18,23 @@ use Psr\Http\Message\ResponseInterface;
 class Application
 {
     /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Application constructor.
+     * @param AbstractAdapter $adapter
+     */
+    public function __construct(AbstractAdapter $adapter)
+    {
+        $filesystem = new Filesystem($adapter);
+        // $filesystem->addPlugin(new ListFiles());
+
+        $this->filesystem = $filesystem;
+    }
+
+    /**
      * @param array $middleware
      * @param RequestInterface|null $request
      * @return ResponseInterface
@@ -25,6 +44,8 @@ class Application
         if (is_null($request)) {
             $request = ServerRequest::fromGlobals();
         }
+
+        $request = $request->withAttribute('filesystem', $this->filesystem);
 
         $response = new Response();
 

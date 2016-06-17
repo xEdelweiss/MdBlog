@@ -9,12 +9,16 @@ use Psr\Http\Message\ResponseInterface;
 
 class Demo implements MiddlewareInterface
 {
-    function __invoke(RequestInterface $request, ResponseInterface $response, callable $next) {
-        return $response->withBody(
-            stream_for(json_encode([
-                $request->getMethod(),
-                $request->getUri()->getPath()
-            ], JSON_PRETTY_PRINT))
-        );
+    function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        /**
+         * @var ResponseInterface $result
+         */
+        $result = $next($request, $response);
+
+        return $result->withBody(new \GuzzleHttp\Psr7\AppendStream([
+            $result->getBody(),
+            stream_for('<hr/>Powered by MdBlog'),
+        ]));
     }
 }
