@@ -2,13 +2,15 @@
 
 require '../vendor/autoload.php';
 
+$localAdapter = new \League\Flysystem\Adapter\Local('../content');
+$filesystem = new \League\Flysystem\Filesystem($localAdapter);
+
 $middleware = [
-    new \MdBlog\Middleware\ReadFile(),
-    new \MdBlog\Middleware\Demo(),
+    new \MdBlog\Middleware\ReadFile($filesystem),
+    new \MdBlog\Middleware\PoweredBy(),
     new \MdBlog\Middleware\RenderMarkdown(),
 ];
 
-$localAdapter = new \League\Flysystem\Adapter\Local('../content');
+$application = new \MdBlog\Application($filesystem);
 
-$application = new \MdBlog\Application($localAdapter);
 $application->dispatchAndSend($middleware);

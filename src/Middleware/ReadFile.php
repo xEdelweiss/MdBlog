@@ -10,15 +10,27 @@ use Psr\Http\Message\ResponseInterface;
 
 class ReadFile implements MiddlewareInterface
 {
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * ReadFile constructor.
+     * @param Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
         /**
          * @var Filesystem $filesystem
          */
-        $filesystem = $request->getAttribute('filesystem');
         $path = $request->getUri()->getPath();
-
-        $fileContent = $filesystem->read($path);
+        $fileContent = $this->filesystem->read($path);
 
         $response = $response->withBody(stream_for(
             $fileContent
