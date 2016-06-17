@@ -1,0 +1,31 @@
+{
+    "name": "xedelweiss/md-blog",
+    "authors": [
+        {
+            "name": "Michael Sverdlikovsky",
+            "email": "xedelweiss@gmail.com"
+        }
+    ],
+    "require": {
+        "league/flysystem": "^1.0",
+        "league/commonmark": "^0.13.4",
+        "symfony/http-foundation": "^3.1",
+        "mindplay/middleman": "^1.1",
+        "symfony/psr-http-message-bridge": "^0.2.0",
+        "zendframework/zend-diactoros": "^1.3",
+        "guzzlehttp/psr7": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MdBlog\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^3.1"
+    },
+    "autoload-dev": {
+        "files": [
+            "src/utils/dev.php"
+        ]
+    }
+}
